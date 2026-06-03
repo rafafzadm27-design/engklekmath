@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pilihan Materi Bilangan Bulat</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        body {
+            background-image: linear-gradient(rgba(44, 62, 80, 0.4), rgba(44, 62, 80, 0.4)), 
+                              url('background.jpg'), 
+                              url('image_48c051.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-color: #2c3e50;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container-materi {
+            width: 100%;
+            max-width: 850px;
+            background: rgba(44, 62, 80, 0.95);
+            border: 6px solid #3498db;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0px 10px 0px #2980b9;
+        }
+
+        .menu-sub-materi {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .tombol-sub {
+            background-color: #2c3e50;
+            color: #fff;
+            border: 4px solid #fff;
+            padding: 18px;
+            font-size: 0.65rem;
+            cursor: pointer;
+            text-align: left;
+            box-shadow: 4px 4px 0px #000;
+            transition: 0.1s;
+        }
+
+        .tombol-sub:hover {
+            border-color: #f1c40f;
+            color: #f1c40f;
+            transform: translateX(5px);
+        }
+
+        .konten-materi-spesifik {
+            display: none; 
+        }
+
+        .arena-hutan {
+            background-color: #1e272e;
+            border: 4px solid #fff;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 10px;
+            box-shadow: inset 0 0 20px #000;
+        }
+
+        .lintasan-buah {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #2f3542;
+            padding: 20px 10px;
+            border-radius: 8px;
+            margin: 20px 0;
+            position: relative;
+            border: 3px dashed #747d8c;
+        }
+
+        .petak-buah {
+            width: 55px;
+            height: 55px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.6rem;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .zona-negatif { background-color: #ff5252; color: white; } 
+        .zona-nol { background-color: #f1c40f; color: #000; font-weight: bold; } 
+        .zona-positif { background-color: #2ecc71; color: white; } 
+
+        #monyetKartun {
+            position: absolute;
+            font-size: 2.2rem;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            top: -25px; 
+            z-index: 10;
+            filter: drop-shadow(0px 4px 0px #000);
+        }
+
+        .papan-cerita {
+            font-size: 0.6rem;
+            line-height: 1.8;
+            background-color: #34495e;
+            padding: 15px;
+            border-left: 5px solid #f1c40f;
+            text-align: left;
+            min-height: 90px;
+        }
+
+        /* STYLE INPUT JAWABAN MANDIRI */
+        .input-jawaban {
+            font-size: 1.2rem;
+            width: 140px;
+            padding: 10px;
+            text-align: center;
+            border: 4px solid #fff;
+            background-color: #2c3e50;
+            color: #f1c40f;
+            margin-bottom: 15px;
+            outline: none;
+        }
+
+        /* 🔥 KODE KHUSUS MENGHILANGKAN TOMBOL PANAH INPUT ANGKA */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        .papan-skor-mini {
+            font-size: 0.65rem;
+            color: #2ecc71;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .navigasi-cerita {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-pilihan {
+            background-color: #3498db; color: white; padding: 12px 18px;
+            font-size: 0.55rem; border: 4px solid #2980b9; cursor: pointer; box-shadow: 3px 3px 0px #000;
+        }
+
+        .btn-pilihan:active { transform: translate(3px, 3px); box-shadow: 0px 0px 0px #000; }
+        .btn-kembali { background-color: #e74c3c; border-color: #c0392b; }
+    </style>
+</head>
+<body>
+
+    <div id="halamanDaftarSub" class="container-materi">
+        <h2 style="color: #3498db; font-size: 1.2rem; text-shadow: 2px 2px 0px #000;">📖 DAFTAR MATERI BI-BUL</h2>
+        <p style="font-size: 0.55rem; color: #bdc3c7; margin-top: 10px;">Pilih sub-materi yang ingin kamu pelajari hari ini:</p>
+
+        <div class="menu-sub-materi">
+            <button class="tombol-sub" onclick="bukaSubMateri('sub1')">🐵 1. MENGENAL BILANGAN BULAT</button>
+            <button class="tombol-sub" onclick="bukaSubMateri('sub2')">➕ 2. OPERASI PENJUMLAHAN</button>
+            <button class="tombol-sub" onclick="bukaSubMateri('sub3')">➖ 3. OPERASI PENGURANGAN</button>
+        </div>
+
+        <div class="navigasi-cerita">
+            <button class="btn-pilihan btn-kembali" onclick="window.location.href='materi.html'">↩️ KEMBALI KE PETA</button>
+        </div>
+    </div>
+
+
+    <div id="kontenSub1" class="container-materi konten-materi-spesifik">
+        <h2 style="color: #f1c40f; font-size: 1rem;">🍌 PETUALANGAN MONYET BILANGAN</h2>
+        <div class="arena-hutan">
+            <div class="papan-cerita" id="ceritaMonyet">
+                🐵 <b>Monyet:</b> "Halo teman-teman! Aku lapar banget di posisi <b>0</b>. Bantu aku melompat mencari buah manis di zona kanan (+) atau menjauhi buah busuk di zona kiri (-) ya!"
+            </div>
+            <div class="lintasan-buah">
+                <div id="monyetKartun" style="left: calc(50% - 27px);">🐵</div>
+                <div class="petak-buah zona-negatif" id="buah--2">🤢<br>-2</div>
+                <div class="petak-buah zona-negatif" id="buah--1">🍏<br>-1</div>
+                <div class="petak-buah zona-nol" id="buah-0">🏠<br>0</div>
+                <div class="petak-buah zona-positif" id="buah-1">🍎<br>1</div>
+                <div class="petak-buah zona-positif" id="buah-2">🍌<br>2</div>
+            </div>
+        </div>
+        <div class="navigasi-cerita">
+            <button class="btn-pilihan" style="background-color: #ff5252; border-color: #b33939;" onclick="jalanMonyet('kiri')">⬅️ MUNDUR (-)</button>
+            <button class="btn-pilihan" style="background-color: #2ecc71; border-color: #27ae60;" onclick="jalanMonyet('kanan')">MAJU (+) ➡️</button>
+        </div>
+        <div class="navigasi-cerita" style="margin-top: 30px;"><button class="btn-pilihan btn-kembali" onclick="tutupSubMateri()">↩️ KEMBALI KE DAFTAR</button></div>
+    </div>
+
+
+    <div id="kontenSub2" class="container-materi konten-materi-spesifik">
+        <h2 style="color: #2ecc71; font-size: 1rem;">➕ ZONA OPERASI PENJUMLAHAN</h2>
+        
+        <div id="boxKonsepPenjumlahan" class="papan-simulasi" style="background-color:#2c3e50; border:4px solid #fff; padding:20px; margin:25px 0; border-radius:10px;">
+            <div class="papan-cerita" style="border-left-color: #2ecc71;">
+                <b style="color: #2ecc71; font-size: 0.75rem;">💡 KUNCI RAHASIA PENJUMLAHAN:</b><br><br>
+                1. Menjumlahkan artinya kita <b style="color: #2ecc71;">MELANGKAH MAJU</b> searah ke depan.<br><br>
+                2. Jika ditambah bilangan <b style="color: #2ecc71;">POSITIF</b>, arah jalannya tetap maju ke <b style="color: #2ecc71;">KANAN</b>.<br><br>
+                3. Jika ditambah bilangan <b style="color: #ff5252;">NEGATIF</b>, arah jalannya berubah jadi melangkah <b style="color: #ff5252;">MUNDUR</b>.<br><br>
+                <span style="color:#f1c40f;">Contoh: 2 + (-3) artinya mulai dari petak 2, lalu berjalan MUNDUR 3 langkah. Hasilnya adalah -1!</span>
+            </div>
+            
+            <div class="navigasi-cerita" style="margin-top: 20px;">
+                <button class="btn-pilihan" style="background-color: #2ecc71; border-color: #27ae60; font-size: 0.65rem;" onclick="mulaiTantanganSoal()">🎮 MULAI TANTANGAN SOAL</button>
+            </div>
+        </div>
+
+        <div id="boxGameSoal" class="papan-simulasi" style="background-color:#2c3e50; border:4px solid #fff; padding:20px; margin:25px 0; border-radius:10px; display: none;">
+            <div class="papan-skor-mini">🔥 SKOR MATEMATIKAMU: <span id="skorPenjumlahan">0</span></div>
+            
+            <div class="papan-cerita" style="border-left-color: #2ecc71; text-align: center;">
+                <p style="font-size:0.55rem; color:#bdc3c7; margin-bottom:10px;">Hitunglah hasil operasi penjumlahan berikut:</p>
+                <span id="labelSoalAcak" style="color: #f1c40f; font-size: 1.3rem; display:block; margin: 15px 0;">0 + 0 = ?</span>
+                <input type="number" id="inputUser" class="input-jawaban" placeholder="?">
+            </div>
+
+            <div class="navigasi-cerita">
+                <button class="btn-pilihan" style="background-color:#2ecc71; border-color:#27ae60;" onclick="jawabSoalPenjumlahan()">KIRIM JAWABAN ✔️</button>
+            </div>
+        </div>
+
+        <div class="navigasi-cerita" style="margin-top: 30px;">
+            <button class="btn-pilihan btn-kembali" onclick="tutupSubMateri()">↩️ KEMBALI KE DAFTAR</button>
+        </div>
+    </div>
+
+
+    <div id="kontenSub3" class="container-materi konten-materi-spesifik">
+        <h2 style="color: #e74c3c; font-size: 1rem;">➖ 3. OPERASI PENGURANGAN</h2>
+        <div class="papan-simulasi" style="background-color:#2c3e50; border:4px solid #fff; padding:20px; margin:25px 0; border-radius:10px; min-height:180px;">
+            <div class="teks-cerita" style="border-left-color: #e74c3c; font-size:0.6rem; line-height:1.8; text-align:left;">
+                💡 <b>KONSEP PENGURANGAN:</b><br>Mengurangi bilangan artinya kita **BERBALIK ARAH** atau **MELANGKAH MUNDUR**.<br><br>Coba hitung tantangan ini:<br><span style="color: #f1c40f; font-size: 1rem; display:block; margin: 10px 0; text-align:center;">3 - 4 = ...?</span>
+            </div>
+        </div>
+        <div class="navigasi-cerita">
+            <button class="btn-pilihan" style="background-color:#2ecc71;" onclick="alert('🎉 HEBAT! Punya uang 3 lalu berutang 4, sisanya adalah kurang 1 alias -1!')">JAWABAN: -1</button>
+            <button class="btn-pilihan" style="background-color:#e74c3c;" onclick="alert('❌ Ups salah! Ingat, jalurnya mundur melewati angka 0 ya!')">JAWABAN: 1</button>
+        </div>
+        <div class="navigasi-cerita" style="margin-top: 30px;"><button class="btn-pilihan btn-kembali" onclick="tutupSubMateri()">↩️ KEMBALI KE DAFTAR</button></div>
+    </div>
+
+
+    <script>
+        function bukaSubMateri(idSub) {
+            document.getElementById('halamanDaftarSub').style.display = 'none';
+            if(idSub === 'sub1') document.getElementById('kontenSub1').style.display = 'block';
+            if(idSub === 'sub2') {
+                document.getElementById('kontenSub2').style.display = 'block';
+                document.getElementById('boxKonsepPenjumlahan').style.display = 'block';
+                document.getElementById('boxGameSoal').style.display = 'none';
+            }
+            if(idSub === 'sub3') document.getElementById('kontenSub3').style.display = 'block';
+        }
+
+        function tutupSubMateri() {
+            document.getElementById('kontenSub1').style.display = 'none';
+            document.getElementById('kontenSub2').style.display = 'none';
+            document.getElementById('kontenSub3').style.display = 'none';
+            document.getElementById('halamanDaftarSub').style.display = 'block';
+            koorMonyet = 0;
+            updateMonyetVisual();
+        }
+
+        /* LOGIKA SUB 1: MONYET */
+        let koorMonyet = 0; 
+        const monyet = document.getElementById('monyetKartun');
+        const infoCerita = document.getElementById('ceritaMonyet');
+        const posisiPersen = { '-2': 'calc(0% + 10px)', '-1': 'calc(25% - 10px)', '0': 'calc(50% - 27px)', '1': 'calc(75% - 40px)', '2': 'calc(100% - 65px)' };
+
+        function jalanMonyet(arah) {
+            if (arah === 'kanan' && koorMonyet < 2) koorMonyet += 1;
+            else if (arah === 'kiri' && koorMonyet > -2) koorMonyet -= 1;
+            updateMonyetVisual();
+        }
+
+        function updateMonyetVisual() {
+            monyet.style.left = posisiPersen[koorMonyet];
+            if (koorMonyet === 2) { monyet.innerText = '😋'; infoCerita.innerHTML = `🍌 <b>ANGKA KORIDOR +2 (POSITIF)</b><br><br>Yeeay! Monyet berhasil <b>MAJU 2 LANGKAH</b> ke kanan dan memakan Pisang Manis! Angka yang posisinya di kanan 0 disebut <b>Bilangan Positif</b>!`; }
+            else if (koorMonyet === 1) { monyet.innerText = '🐒'; infoCerita.innerHTML = `🍎 <b>ANGKA KORIDOR +1 (POSITIF)</b><br><br>Monyet bergerak <b>MAJU 1 LANGKAH</b> mendekati buah Apel Merah segar. Nilai bilangan positif selalu makin besar jika melangkah ke kanan!`; }
+            else if (koorMonyet === 0) { monyet.innerText = '🐵'; infoCerita.innerHTML = `🏠 <b>TITIK AWAL / ANGKA 0</b><br><br>Monyet berada di rumahnya yang aman (Angka 0). Angka 0 adalah <b>titik pembatas netral</b>. Tidak positif and tidak negatif!`; }
+            else if (koorMonyet === -1) { monyet.innerText = '🤨'; infoCerita.innerHTML = `🍏 <b>ANGKA KORIDOR -1 (NEGATIF)</b><br><br>Monyet melangkah <b>MUNDUR 1 LANGKAH</b> ke kiri. Angka yang bertanda minus (-) dan posisinya di sebelah kiri 0 disebut <b>Bilangan Negatif</b>!`; }
+            else if (koorMonyet === -2) { monyet.innerText = '😱'; infoCerita.innerHTML = `🤢 <b>ANGKA KORIDOR -2 (NEGATIF)</b><br><br>Awas! Monyet <b>MUNDUR 2 LANGKAH</b> karena mencium bau buah beracun busuk! Tanda minus (-) menunjukkan arah yang berlawanan dari positif!`; }
+        }
+
+        /* LOGIKA SUB 2: GENERATOR SOAL */
+        let angkaPertama = 0;
+        let angkaKedua = 0;
+        let totalSkorPenjumlahan = 0;
+        let jawabanBenarMekanik = 0;
+
+        function mulaiTantanganSoal() {
+            document.getElementById('boxKonsepPenjumlahan').style.display = 'none';
+            document.getElementById('boxGameSoal').style.display = 'block';
+            bikinSoalBaruOtomatis(); 
+        }
+
+        function bikinSoalBaruOtomatis() {
+            angkaPertama = Math.floor(Math.random() * 21) - 10;
+            angkaKedua = Math.floor(Math.random() * 21) - 10;
+            jawabanBenarMekanik = angkaPertama + angkaKedua;
+
+            let cetakAngkaKedua = angkaKedua < 0 ? `(${angkaKedua})` : angkaKedua;
+            document.getElementById('labelSoalAcak').innerText = `${angkaPertama} + ${cetakAngkaKedua} = ?`;
+            
+            document.getElementById('inputUser').value = "";
+            document.getElementById('inputUser').focus();
+        }
+
+        function jawabSoalPenjumlahan() {
+            let jawabanSiswa = parseInt(document.getElementById('inputUser').value);
+
+            if (isNaN(jawabanSiswa)) {
+                alert("Ketik dulu jawabannya di dalam kotak ya! 📋");
+                return;
+            }
+
+            if (jawabanSiswa === jawabanBenarMekanik) {
+                totalSkorPenjumlahan += 10;
+                document.getElementById('skorPenjumlahan').innerText = totalSkorPenjumlahan;
+                alert("🎉 LUAR BIASA! Jawaban kamu BENAR! Skor bertambah +10!");
+                bikinSoalBaruOtomatis(); 
+            } else {
+                alert(`❌ Oops, jawaban kurang tepat! Coba hitung pelan-pelan lagi ya. Kunci pengerjaannya: Mulai dari angka ${angkaPertama} lalu jalankan operasinya.`);
+            }
+        }
+    </script>
+</body>
+</html>
